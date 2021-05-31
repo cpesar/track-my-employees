@@ -1,4 +1,6 @@
+//REQUIRE dotenv for password
 require('dotenv').config()
+
 //IMPORT MYSQL2
 const mysql = require('mysql2');
 
@@ -6,29 +8,15 @@ const mysql = require('mysql2');
 const generateServer = require('./server');
 const inquirer = require('inquirer');
 const fs = require ('fs');
-// const password = process.env.password
-
-// const db = require('dotenv')
-// db.connect({
-//   host: process.env.DB_HOST,
-//   username: process.env.DB_USER,
-//   password: process.env.DB_PASS
-// })
-
-
 
 
 // FUNCTION TO CONNECT TO DB
-// Encrypt my password??????
 const db = mysql.createConnection(
   {
     host: 'localhost',
     port: 3306,
-    // Your MySQL username,
     user: 'root',
-    // Your MySQL password
     password:process.env.DB_PASS,
-    // password: password,
     database: 'employee_tracker'
   },
   console.log('Connected to the employee tracker database.')
@@ -51,11 +39,10 @@ inquirer.prompt ([
     message: "Please select from the following options (use arrows)",
     choices: ["View all departments", "View all roles", "View all employees", "Add a department", "Add a role", "Add an employee", "Update an employee role"]
   },
-
 ])
 
 
-// FUNCTION TO WRITE TO SERVER FILE
+// FUNCTION TO WRITE TO CREATE TABLE
 .then (response => 
   {
     switch(response.options){
@@ -80,6 +67,8 @@ inquirer.prompt ([
 
 
 //METHODS CALLED BY SWITCH CASE TO BE HOISTED
+
+//DEPARTMENTS TABLE
 function viewDepartments(){
   //sql query, get applied to the function after
   db.query(`SELECT * FROM department`, function(err, res){
@@ -89,6 +78,7 @@ function viewDepartments(){
   })
 }
 
+//ROLES TABLE
 function viewRoles(){
   db.query(`SELECT * FROM roles`, function(err, res){
     if(err) throw err
@@ -97,6 +87,7 @@ function viewRoles(){
   })
 }
 
+//EMPLOYEE TABLE
 function viewAllEmployees(){
   db.query(`SELECT * FROM employee`, function(err, res){
     if(err) throw err
@@ -105,6 +96,8 @@ function viewAllEmployees(){
   })
 }
 
+
+//ADD DEPARTMENT FUNCTION
 function addDepartment(){
   inquirer.prompt([
     {
@@ -171,41 +164,7 @@ function addDepartment(){
 // });
 // }
 
-function addEmployee() {
-  db.query("SELECT * FROM roles", function (err, results) {
-    if (err) throw err;
-    inquirer.prompt([
-      {
-        name: "firstName",
-        type: "input",
-        message: "What is the new employee's first name?"
-      },
-      {
-        name: "lastName",
-        type: "input",
-        message: "What is the new employee's last name?"
-      },
-      {
-        name: "roleId",
-        type: "list",
-        choices: results.map(item => item.role_title),
-        message: "Select a role for the employee"
-      }
-    ]).then(function (answers) {
-      const selectedRole = results.find(item => item.role_title === answers.roleId);
-      db.query("INSERT INTO employee SET ?",
-        {
-          first_name: answers.firstName,
-          last_name: answers.lastName,
-          role_id: selectedRole.id
-        }, function (err, res) {
-          if (err) throw err;
-          console.log("Added new employee named " + answers.firstName + " " + answers.lastName + "\n");
-          runApp();
-        })
-    })
-  })
-};
+
 
 
 
