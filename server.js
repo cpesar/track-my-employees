@@ -1,3 +1,6 @@
+//IMPORT MYSQL2
+const mysql = require('mysql2');
+
 //IMPORT EXPRESS
 const express = require('express');
 
@@ -8,6 +11,22 @@ const app = express();
 //EXPRESS MIDDLEWARE
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+
+
+// FUNCTION TO CONNECT TO DB
+const db = mysql.createConnection(
+  {
+    host: 'localhost',
+    // Your MySQL username,
+    user: 'root',
+    // Your MySQL password
+    password: 'WinterWins$1977',
+    database: 'election'
+  },
+  console.log('Connected to the election database.')
+);
+
+
 
 //HANDLES USER REQUESTS THAT AREN'T SUPPORTED
 app.use((req, res) => {
