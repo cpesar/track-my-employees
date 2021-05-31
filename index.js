@@ -1,3 +1,4 @@
+require('dotenv').config()
 //IMPORT MYSQL2
 const mysql = require('mysql2');
 
@@ -5,18 +6,28 @@ const mysql = require('mysql2');
 const generateServer = require('./server');
 const inquirer = require('inquirer');
 const fs = require ('fs');
-const password = process.env.password
+// const password = process.env.password
+
+// const db = require('dotenv')
+// db.connect({
+//   host: process.env.DB_HOST,
+//   username: process.env.DB_USER,
+//   password: process.env.DB_PASS
+// })
+
+
+
 
 // FUNCTION TO CONNECT TO DB
-//Encrypt my password??????
+// Encrypt my password??????
 const db = mysql.createConnection(
   {
     host: 'localhost',
     port: 3306,
     // Your MySQL username,
-    user: 'root',
+    username: 'root',
     // Your MySQL password
-    password: "WinterWins$1977",
+    password:'process.env.DB_PASS',
     // password: password,
     database: 'employee_tracker'
   },
@@ -112,54 +123,89 @@ function addDepartment(){
 }
 
 
-function addEmployee(){
-  db.query(`SELECT * FROM roles`, function(err, res){
-  if(err) throw err;
+// function addEmployee(){
+//   db.query(`SELECT * FROM roles`, function(err, res){
+//   if(err) throw err;
 
 
-  inquirer.prompt([
-    {
-     name: "first_name",
-     type: "input",
-     message: "What is your first name?"
-    },
-    {
-     name: "last_name",
-     type: "input",
-     message: "What is your last name?" 
-    },
-    {
-      name: "role_id",
-      type: "rawlist",
-      messages: "What is your role id?",
-      choices: res.map(item => {
-        item.role_title
-      })
-    },
-    {
-      name: "manager_id",
-      type: "rawlist",
-      message: "What is your manager id?",
-      choices: res.map(item => {
-        item.first_name
-      })
+//   inquirer.prompt([
+//     {
+//      name: "first_name",
+//      type: "input",
+//      message: "What is your first name?"
+//     },
+//     {
+//      name: "last_name",
+//      type: "input",
+//      message: "What is your last name?" 
+//     },
+//     {
+//       name: "role_id",
+//       type: "raw-list",
+//       messages: "What is your role id?",
+//       choices: res.map(item => {
+//         item.role_title
+//       })
+//     },
+//     {
+//       name: "manager_id",
+//       type: "raw-list",
+//       message: "What is your manager id?",
+//       choices: res.map(item => {
+//         item.first_name
+//       })
       
-    }
-  ]).then (answer => {
-    db.query(`INSERT INTO employee SET ? `, { 
-      first_name: answer.first_name,
-      last_name: answer.last_name,
-      role_id: answer.role_id
-    }, function(err, res){
-      if(err) throw err
-      console.log("Successfully added new employee!");
-      runApp(); 
-    });
-  }); 
-});
-}
+//     }
+//   ]).then (answer => {
+//     const employeeRole = res.find(item => item.role_title === answer.role_id)
+//     db.query(`INSERT INTO employee SET ? `, { 
+//       first_name: answer.first_name,
+//       last_name: answer.last_name,
+//       role_id: employeeRole.id
+//     }, function(err, res){
+//       if(err) throw err
+//       console.log("Successfully added new employee!");
+//       runApp(); 
+//     });
+//   }); 
+// });
+// }
 
-
+function addEmployee() {
+  db.query("SELECT * FROM roles", function (err, results) {
+    if (err) throw err;
+    inquirer.prompt([
+      {
+        name: "firstName",
+        type: "input",
+        message: "What is the new employee's first name?"
+      },
+      {
+        name: "lastName",
+        type: "input",
+        message: "What is the new employee's last name?"
+      },
+      {
+        name: "roleId",
+        type: "list",
+        choices: results.map(item => item.role_title),
+        message: "Select a role for the employee"
+      }
+    ]).then(function (answers) {
+      const selectedRole = results.find(item => item.role_title === answers.roleId);
+      db.query("INSERT INTO employee SET ?",
+        {
+          first_name: answers.firstName,
+          last_name: answers.lastName,
+          role_id: selectedRole.id
+        }, function (err, res) {
+          if (err) throw err;
+          console.log("Added new employee named " + answers.firstName + " " + answers.lastName + "\n");
+          runApp();
+        })
+    })
+  })
+};
 
 
 
