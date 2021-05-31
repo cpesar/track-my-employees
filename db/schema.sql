@@ -4,12 +4,28 @@
 
 -- Using the id keyword ensures that even if columns are identical, the id will be different allowing you to distinguish between records
 
+-- foreign key: a field in one table that references the primary key of another table
+
+
+-- DROP TABLE IF EXISITS: This will delete the tables everytime the schema.sql file is run, ensuring you start with a clean slate
+DROP TABLE IF EXISTS department;
+DROP TABLE IF EXISTS roles;
+DROP TABLE IF EXISTS employee;
+
+
+
+
+
 -- CREATE A DEPARTMENT TABLE
 CREATE TABLE department (
   id INTEGER AUTO_INCREMENT PRIMARY KEY,
   -- NOT NULL MEANS THAT THE COLUMN MUST CONTAIN A VALUE
   department_name VARCHAR(30) NOT NULL
 );
+
+
+
+
 
 -- CREATE A ROLES TABLE
 CREATE TABLE roles (
@@ -18,6 +34,9 @@ CREATE TABLE roles (
   role_salary DECIMAL,
   department_id INTEGER 
 );
+
+
+
 
 -- CREATE AN EMPLOYEE TABLE
 CREATE TABLE employee (
