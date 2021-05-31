@@ -2,18 +2,24 @@
 
 -- WHERE CLAUSE: allows us to filter through data in a table
 
-INSERT INTO department (id, department_id)
+INSERT INTO department (department_name)
 VALUES
-  (1, "Sales"),
-  (2, "Engineering"),
-  (3, "Finance"),
-  (4, "Legal");
+  ("Sales"),
+  ("Engineering"),
+  ("Finance"),
+  ("Legal");
 
 
-INSERT INTO roles (id, role_title, role_salary, department_id)
+INSERT INTO roles (role_title, role_salary, department_id)
 VALUES
+  ("Manager", 60000, 2),
+  ("Salesperson", 45000, 1),
+  ("Tech", 35000, 3),
+  ("Lawyer", 80000, 4);
 
 
 
-INSERT INTO employee (id, first_name, last_name, role_id, manager_id)
+INSERT INTO employee (first_name, last_name, role_id, manager_id)
 VALUES
+  ("Jim", "Lahey", 2, NULL),
+  ("Cal", "Ripken", 4, NULL );

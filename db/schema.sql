@@ -31,7 +31,7 @@ CREATE TABLE department (
 CREATE TABLE roles (
   id INTEGER AUTO_INCREMENT PRIMARY KEY,
   role_title VARCHAR(30) NOT NULL,
-  role_salary DECIMAL,
+  role_salary INTEGER,
   department_id INTEGER 
 );
 
@@ -44,7 +44,7 @@ CREATE TABLE employee (
   first_name VARCHAR(30) NOT NULL,
   last_name VARCHAR(30) NOT NULL,
   role_id INTEGER,
-  manager_id INTEGER 
+  manager_id INTEGER NULL 
 );
 
 
