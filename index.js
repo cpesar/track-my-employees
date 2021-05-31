@@ -16,7 +16,8 @@ const db = mysql.createConnection(
     // Your MySQL username,
     user: 'root',
     // Your MySQL password
-    password: password,
+    password: "WinterWins$1977",
+    // password: password,
     database: 'employee_tracker'
   },
   console.log('Connected to the employee tracker database.')
@@ -26,9 +27,9 @@ const db = mysql.createConnection(
 db.connect(function (err) {
   if (err) throw err;
   console.log("Connected as id " + db.threadId + "\n");
-  
+  runApp();
 });
-runApp();
+
 
 //ARRAY OF USER OPTIONS
 function runApp(){
@@ -46,10 +47,66 @@ inquirer.prompt ([
 // FUNCTION TO WRITE TO SERVER FILE
 .then (response => 
   {
-    fs.writeFileSync('server.js')
-    console.log('Successfully wrote to server.js');
-})
+    switch(response.options){
+      case "View all departments":
+        viewDepartments();
+        break;
+      case "View all roles":
+        viewRoles();
+        break;
+      case "View all employees":
+        viewAllEmployees();
+        break;
+      case "Add a department":
+        addDepartment();
+        break;
+    }
+    
+  })
 
+
+//METHODS CALLED BY SWITCH CASE TO BE HOISTED
+function viewDepartments(){
+  //sql query, get applied to the function after
+  db.query(`SELECT * FROM department`, function(err, res){
+    if(err) throw err
+    console.table(res)
+    runApp(); 
+  })
+}
+
+function viewRoles(){
+  db.query(`SELECT * FROM roles`, function(err, res){
+    if(err) throw err
+    console.table(res)
+    runApp(); 
+  })
+}
+
+function viewAllEmployees(){
+  db.query(`SELECT * FROM employee`, function(err, res){
+    if(err) throw err
+    console.table(res)
+    runApp(); 
+  })
+}
+
+function addDepartment(){
+  inquirer.prompt([
+    {
+     name: "addDepartment",
+     message: "Please add a department"
+    }
+  ]).then (answer => {
+    db.query(`INSERT INTO department SET ? `, { 
+      department_name: answer.addDepartment
+    }, function(err, res){
+      if(err) throw err
+      console.log("Successfully added new department!");
+      runApp(); 
+    })
+  }) 
+}
 
 
 
