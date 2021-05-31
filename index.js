@@ -60,6 +60,9 @@ inquirer.prompt ([
       case "Add a department":
         addDepartment();
         break;
+      case "Add an employee":
+        addEmployee();
+        break;
     }
     
   })
@@ -106,6 +109,54 @@ function addDepartment(){
       runApp(); 
     })
   }) 
+}
+
+
+function addEmployee(){
+  db.query(`SELECT * FROM roles`, function(err, res){
+  if(err) throw err;
+
+
+  inquirer.prompt([
+    {
+     name: "first_name",
+     type: "input",
+     message: "What is your first name?"
+    },
+    {
+     name: "last_name",
+     type: "input",
+     message: "What is your last name?" 
+    },
+    {
+      name: "role_id",
+      type: "rawlist",
+      messages: "What is your role id?",
+      choices: res.map(item => {
+        item.role_title
+      })
+    },
+    {
+      name: "manager_id",
+      type: "rawlist",
+      message: "What is your manager id?",
+      choices: res.map(item => {
+        item.first_name
+      })
+      
+    }
+  ]).then (answer => {
+    db.query(`INSERT INTO employee SET ? `, { 
+      first_name: answer.first_name,
+      last_name: answer.last_name,
+      role_id: answer.role_id
+    }, function(err, res){
+      if(err) throw err
+      console.log("Successfully added new employee!");
+      runApp(); 
+    });
+  }); 
+});
 }
 
 
