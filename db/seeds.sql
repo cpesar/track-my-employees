@@ -1,3 +1,7 @@
+-- INSERT INTO <table name> let's us know which table we will load the data into
+
+-- WHERE CLAUSE: allows us to filter through data in a table
+
 INSERT INTO department (id, department_id)
 VALUES
   (1, "Sales"),
