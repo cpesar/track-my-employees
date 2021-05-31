@@ -25,9 +25,9 @@ const db = mysql.createConnection(
     host: 'localhost',
     port: 3306,
     // Your MySQL username,
-    username: 'root',
+    user: 'root',
     // Your MySQL password
-    password:'process.env.DB_PASS',
+    password:process.env.DB_PASS,
     // password: password,
     database: 'employee_tracker'
   },
