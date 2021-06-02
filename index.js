@@ -67,6 +67,7 @@ inquirer.prompt ([
 
 
 //METHODS CALLED BY SWITCH CASE TO BE HOISTED
+//SEE SQL-NOTES FILE
 
 //DEPARTMENTS TABLE
 function viewDepartments(){
