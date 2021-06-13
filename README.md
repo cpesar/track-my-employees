@@ -6,6 +6,8 @@
   ## Description
   A command line application to manages a company's employee database. This application utilizes Node.js, Inquirer, and MySQL2. This allows a manager to track his/her employees by first name, last name, id, department, and salary.
   <br />
+  <br />
+  [Table creation using MySQL Shell](https://www.youtube.com/watch?v=jKSjJ2JGgaM)
   
   
   
