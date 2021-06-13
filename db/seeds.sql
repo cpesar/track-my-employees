@@ -2,6 +2,7 @@
 
 -- WHERE CLAUSE: allows us to filter through data in a table
 
+    -- DEPARTMENT TABLE
 INSERT INTO department (department_name)
 VALUES
   ("Sales"),
@@ -9,7 +10,7 @@ VALUES
   ("Finance"),
   ("Legal");
 
-
+    -- ROLES TABLE
 INSERT INTO roles (role_title, role_salary, department_id)
 VALUES
   ("Manager", 60000, 2),
@@ -18,7 +19,7 @@ VALUES
   ("Lawyer", 80000, 4);
 
 
-
+    -- EMPLOYEE TABLE
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
 VALUES
   ("Jim", "Lahey", 2, NULL),
