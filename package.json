@@ -2,10 +2,12 @@
   "name": "track-my-employees",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "index.js",
+  "start": "node server.js",
+  "seed": "node seeds/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
+   
   },
   "repository": {
     "type": "git",

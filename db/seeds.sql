@@ -20,7 +20,15 @@ VALUES
 
 
     -- EMPLOYEE TABLE
-INSERT INTO employee (first_name, last_name, role_id, manager_id)
+INSERT INTO employees (first_name, last_name, role_id, manager_id)
 VALUES
   ("Jim", "Lahey", 2, NULL),
-  ("Cal", "Ripken", 4, NULL );
+  ("Cal", "Ripken", 4, NULL ),
+  ("Jim", "Palmer", 3, NULL),
+  ("Billy", "Bob", 3, NULL),
+  ("Matthew", "McConughey", 4, NULL),
+  ("Barry", "Bonds", 1, NULL),
+  ("Derek", "Jeter", 3, NULL),
+  ("Lamar", "Jackson", 1, NULL),
+  ("Brett", "Farve", 1, NULL),
+  ("Bill", "Lumburgh", 1, NULL);
