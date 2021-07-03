@@ -8,7 +8,7 @@ const mysql = require('mysql2');
 const inquirer = require('inquirer');
 const fs = require ('fs');
 
-// const cTable = require('console.table');
+const cTable = require('console.table');
 // const db = require('./db/connection');
 
 // FUNCTION TO CONNECT TO DB
