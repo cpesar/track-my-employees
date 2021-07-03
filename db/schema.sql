@@ -10,7 +10,7 @@
 -- DROP TABLE IF EXISITS: This will delete the tables everytime the schema.sql file is run, ensuring you start with a clean slate
 DROP TABLE IF EXISTS department;
 DROP TABLE IF EXISTS roles;
-DROP TABLE IF EXISTS employee;
+DROP TABLE IF EXISTS employees;
 
 
 
