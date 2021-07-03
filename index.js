@@ -1,6 +1,6 @@
 //START THIS WITH `node index.js`
-//REQUIRE dotenv for password
-// require('dotenv').config()
+// REQUIRE dotenv for password
+require('dotenv').config()
 
 //REQUIRED DEPENDENCIES
 // const generateServer = require('./server');
@@ -16,8 +16,7 @@ const db = mysql.createConnection({
   host: 'localhost',
   port: 3306,
   user: 'root',
-  // password:process.env.DB_PASS,
-  password:'WinterWins$1969',
+  password:process.env.DB_PASS,
   database: 'employee_tracker'
 },
 console.log('Connected to the employee tracker database.')
