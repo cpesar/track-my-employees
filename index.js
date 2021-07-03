@@ -1,15 +1,15 @@
-//START THIS WITH `node index.js`
+//START THE APPLICATION WITH `node index.js`
+
 // REQUIRE dotenv for password
 require('dotenv').config()
 
 //REQUIRED DEPENDENCIES
-// const generateServer = require('./server');
 const mysql = require('mysql2');
 const inquirer = require('inquirer');
 const fs = require ('fs');
 
 const cTable = require('console.table');
-// const db = require('./db/connection');
+
 
 // FUNCTION TO CONNECT TO DB
 const db = mysql.createConnection({
@@ -90,11 +90,11 @@ inquirer.prompt ([
 
 //EMPLOYEE TABLE
 function viewAllEmployees(){
-  console.log('does this work');
-  db.query(`SELECT * FROM employees`, function(err, res){
-    
+  // console.log('does this work');
+  // db.query(`SELECT employees.first_name, employees.last_name, roles.job_title, roles.role_salary, department.department_name  `, function(err, res){
+   
+  db.query(`SELECT * FROM employees`, function (err, res){
     if(err) throw err
-    
     console.table(res)
     runApp(); 
   })
@@ -128,17 +128,17 @@ function addEmployee(){
     {
      name: "first_name",
      type: "input",
-     message: "What is your first name?"
+     message: "What is your employee's first name?"
     },
     {
      name: "last_name",
      type: "input",
-     message: "What is your last name?" 
+     message: "What is your employee's last name?" 
     },
     {
       name: "role_id",
       type: "list",
-      messages: "What is your role id?",
+      messages: "What is your employee's role id?",
       choices: res.map(item => 
         item.role_title
       )
@@ -168,7 +168,7 @@ function addEmployee(){
 }
 
 
-//update role
+// UPDATE A ROLE
 function updateRole (){
   db.query(`SELECT * FROM employees`, function(res, err){
     if(err) throw err;
@@ -188,10 +188,10 @@ function updateRole (){
             name: 'role_id',
             type: 'list',
             message: 'Select a role for the employee',
-            choices: res.map(role => role.role_title )
+            choices: res.map(role => role.job_title )
           }
         ]).then(answer => {
-          const roleChosen = res.find (role => role.role_title === answer.role_id)
+          const roleChosen = res.find (role => roles.job_title === answer.role_id)
           db.query(`UPDATE employees SET ? WHERE first_name = ` + "'" + updatedRole + "'" , {
             role_id: "" + roleChosen.id + "" 
           }, 
@@ -206,44 +206,44 @@ function updateRole (){
   })
 }
 
-//add a role
-// function addRole (){
-//   db.query(`SELECT * FROM department`, function(res, err){
-//     // if (err) throw err;
-//     inquirer.prompt([
-//       {
-//        name: "addRole",
-//        type: "input",
-//        message: "What role would you like to add?"
-//       },
-//       {
-//        name: "salary",
-//        type: "number",
-//        message: "What salary does this role have" 
-//       },
-//       {
-//         name: "department_id",
-//         type: "list",
-//         messages: "What is department id?",
-//         choices: res.map(item => 
-//           item.department_id
-//         )
-//       },
-//     ]).then(answer => {
-//       const selectedDepartment = res.find(item => item.department_id === answer.department_id)
+// ADD A ROLE
+function addRole (){
+  db.query(`SELECT * FROM department`, function(res, err){
+    // if (err) throw err;
+    inquirer.prompt([
+      {
+       name: "addRole",
+       type: "input",
+       message: "What role would you like to add?"
+      },
+      {
+       name: "salary",
+       type: "number",
+       message: "What salary does this role have" 
+      },
+      {
+        name: "department_id",
+        type: "list",
+        messages: "What is department id?",
+        choices: res.map(item => 
+          item.department_id
+        )
+      },
+    ]).then(answer => {
+      const selectedDepartment = res.find(item => item.department_id === answer.department_id)
 
-//       db.query(`INSERT INTO role SET ?`, {
-//         role_title: answer.addRole,
-//         role_salary: answer.salary,
-//         department_id: selectedDepartment.id
-//       }, function(err, res){
-//         if(err) throw err
-//         console.log("Successfully added new role!");
-//         runApp(); 
-//     })
-//     })
-//   })
-// }
+      db.query(`INSERT INTO role SET ?`, {
+        role_title: answer.addRole,
+        role_salary: answer.salary,
+        department_id: selectedDepartment.id
+      }, function(err, res){
+        if(err) throw err
+        console.log("Successfully added new role!");
+        runApp(); 
+    })
+    })
+  })
+}
 
 
 
@@ -269,4 +269,3 @@ function addDepartment(){
 
 }
 
-// runApp();

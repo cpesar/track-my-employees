@@ -15,12 +15,11 @@ DROP TABLE IF EXISTS employees;
 
 
 
-
+  -- NOT NULL MEANS THAT THE COLUMN MUST CONTAIN A VALUE
 -- CREATE A DEPARTMENT TABLE
 CREATE TABLE department (
   id INTEGER AUTO_INCREMENT PRIMARY KEY,
-  -- NOT NULL MEANS THAT THE COLUMN MUST CONTAIN A VALUE
-  department_name VARCHAR(30) NOT NULL
+  department_name VARCHAR(30)
 );
 
 
@@ -29,10 +28,12 @@ CREATE TABLE department (
 
 -- CREATE A ROLES TABLE
 CREATE TABLE roles (
-  id INTEGER AUTO_INCREMENT PRIMARY KEY,
-  role_title VARCHAR(30) NOT NULL,
-  role_salary INTEGER,
-  department_id INTEGER 
+  id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  job_title VARCHAR(30),
+  -- role_id INTEGER, NOT NULL,
+  department_id INTEGER,
+  role_salary DECIMAL
+  -- FOREIGN_KEY (department_id) REFERENCES department(department_id)
 );
 
 
@@ -41,10 +42,12 @@ CREATE TABLE roles (
 -- CREATE AN EMPLOYEE TABLE
 CREATE TABLE employees (
   id INTEGER AUTO_INCREMENT PRIMARY KEY,
-  first_name VARCHAR(30) NOT NULL,
-  last_name VARCHAR(30) NOT NULL,
+  first_name VARCHAR(30),
+  last_name VARCHAR(30),
   role_id INTEGER,
-  manager_id INTEGER NULL 
+  manager_id INTEGER
+  -- FOREIGN_KEY (roles_id) REFERENCES roles(roles_id),
+  -- FOREIGN_KEY (manager_id) REFERENCES employees(employees_id) 
 );
 
 
