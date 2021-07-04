@@ -32,8 +32,9 @@ CREATE TABLE roles (
   job_title VARCHAR(30),
   -- role_id INTEGER, NOT NULL,
   department_id INTEGER,
-  role_salary DECIMAL
-  -- FOREIGN_KEY (department_id) REFERENCES department(department_id)
+  role_salary DECIMAL,
+
+  FOREIGN_KEY (department_id) REFERENCES department(id) ON DELETE SET NULL
 );
 
 
@@ -45,9 +46,10 @@ CREATE TABLE employees (
   first_name VARCHAR(30),
   last_name VARCHAR(30),
   role_id INTEGER,
-  manager_id INTEGER
-  -- FOREIGN_KEY (roles_id) REFERENCES roles(roles_id),
-  -- FOREIGN_KEY (manager_id) REFERENCES employees(employees_id) 
+  manager_id INTEGER,
+
+  FOREIGN_KEY (roles_id) REFERENCES roles(id),
+  FOREIGN_KEY (manager_id) REFERENCES employees(id) 
 );
 
 

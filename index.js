@@ -139,9 +139,7 @@ function addEmployee(){
       name: "role_id",
       type: "list",
       messages: "What is your employee's role id?",
-      choices: res.map(item => 
-        item.role_title
-      )
+      choices: res.map(item => item.role_title)
     },
     // {
     //   name: "manager_id",
@@ -178,7 +176,7 @@ function updateRole (){
         type: 'list',
         message: 'Select the employee who you would like to update',
         choices: res.map(employee => employee.first_name)
-      }
+      },
     ]).then(answer => {
       const updatedRole = (answer.updatedRole);
       db.query(`SELECT * FROM roles`, function (err, res) {
@@ -188,7 +186,7 @@ function updateRole (){
             name: 'role_id',
             type: 'list',
             message: 'Select a role for the employee',
-            choices: res.map(role => role.job_title )
+            // choices: res.map(role => role.job_title )
           }
         ]).then(answer => {
           const roleChosen = res.find (role => roles.job_title === answer.role_id)
@@ -208,33 +206,31 @@ function updateRole (){
 
 // ADD A ROLE
 function addRole (){
-  db.query(`SELECT * FROM department`, function(res, err){
+  db.query(`SELECT * FROM roles`, function(res, err){
     // if (err) throw err;
     inquirer.prompt([
       {
-       name: "addRole",
+       name: "Title",
        type: "input",
-       message: "What role would you like to add?"
+       message: "What is the jobs Title?"
       },
       {
-       name: "salary",
+       name: "Salary",
        type: "number",
-       message: "What salary does this role have" 
+       message: "What Salary does this role have?" 
       },
-      {
-        name: "department_id",
-        type: "list",
-        messages: "What is department id?",
-        choices: res.map(item => 
-          item.department_id
-        )
-      },
+      // {
+      //   name: "department_name",
+      //   type: "list",
+      //   messages: "What is department name?",
+      //   choices: res.map(item => item.job_title)
+      // },
     ]).then(answer => {
       const selectedDepartment = res.find(item => item.department_id === answer.department_id)
 
-      db.query(`INSERT INTO role SET ?`, {
-        role_title: answer.addRole,
-        role_salary: answer.salary,
+      db.query(`INSERT INTO roles SET ?`, {
+        job_title: answer.Title,
+        role_salary: answer.Salary,
         department_id: selectedDepartment.id
       }, function(err, res){
         if(err) throw err
@@ -252,7 +248,7 @@ function addDepartment(){
   inquirer.prompt([
     {
      name: "addDepartment",
-     message: "Please add a department"
+     message: "What is the department name?"
     }
   ]).then (answer => {
     db.query(`INSERT INTO department SET ? `, { 
