@@ -80,7 +80,7 @@ inquirer.prompt ([
         break;
     }
   })
-}
+
 
 //METHODS CALLED BY SWITCH CASE TO BE HOISTED
 
@@ -253,7 +253,7 @@ function addDepartment(){
   }) 
 }
 
-
+}
 
 
 

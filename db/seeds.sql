@@ -1,9 +1,5 @@
--- INSERT INTO <table name> let's us know which table we will load the data into
 
--- WHERE CLAUSE: allows us to filter through data in a table
-
-    -- DEPARTMENT TABLE
-    -- department_id will fill in succession
+    --------- DEPARTMENT TABLE
 INSERT INTO department (department_name)
 VALUES
   ("Sales"),
@@ -11,8 +7,7 @@ VALUES
   ("Finance"),
   ("Legal");
 
-    -- ROLES TABLE
-    -- role_id will fill in sucession
+    --------- ROLE TABLE
 INSERT INTO role (job_title, role_salary, department_id)
 VALUES
   ("Graphic-Designer", 50000, 1),
@@ -27,8 +22,7 @@ VALUES
   ("Lawyer", 80000, 4);
 
 
-    -- EMPLOYEE TABLE
-    -- employee_id will fill in succession
+    ---------- EMPLOYEE TABLE
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
 VALUES
   ("Jim", "Lahey", 1, 1),
