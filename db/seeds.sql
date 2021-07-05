@@ -7,13 +7,13 @@
 INSERT INTO department (department_name)
 VALUES
   ("Sales"),
-  ("Engineering"),
+  ("Production"),
   ("Finance"),
   ("Legal");
 
     -- ROLES TABLE
     -- role_id will fill in sucession
-INSERT INTO roles (job_title, role_salary, department_id)
+INSERT INTO role (job_title, role_salary, department_id)
 VALUES
   ("Graphic-Designer", 50000, 1),
   ("Sales-Manager", 45000, 1),
@@ -29,7 +29,7 @@ VALUES
 
     -- EMPLOYEE TABLE
     -- employee_id will fill in succession
-INSERT INTO employees (first_name, last_name, role_id, manager_id)
+INSERT INTO employee (first_name, last_name, role_id, manager_id)
 VALUES
   ("Jim", "Lahey", 1, 1),
   ("Cal", "Ripken", 2,  NULL),

@@ -18,10 +18,9 @@ CREATE TABLE role (
   role_salary DECIMAL,
   PRIMARY KEY(id),
   -- Sets the relationship between the role table and the department table
-  FOREIGN_KEY (department_id) REFERENCES department(id)  
+  CONSTRAINT fk_department FOREIGN KEY (department_id) REFERENCES department(id) ON DELETE CASCADE
 );
 
--- Sets the relationship between the role table and the department table
 --------------------EMPLOYEE TABLE
 CREATE TABLE employee (
   id INTEGER NOT NULL AUTO_INCREMENT,
@@ -32,13 +31,9 @@ CREATE TABLE employee (
   PRIMARY KEY(id),
 
 -- Sets the relationship between the employee table and the role table
-  FOREIGN_KEY (role_id) 
-  REFERENCES role(id) 
-  ON DELETE CASCADE SET NULL
+  CONSTRAINT fk_role FOREIGN KEY (role_id) REFERENCES employee(id) ON DELETE SET NULL,
 -- Self references manager with employee in the employee table
-  FOREIGN_KEY (manager_id) 
-  REFERENCES employee(id) 
-  ON DELETE SET NULL
+  CONSTRAINT fk_manager FOREIGN KEY (manager_id) REFERENCES employee(id) ON DELETE SET NULL
 );
 
 

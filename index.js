@@ -80,7 +80,7 @@ inquirer.prompt ([
         break;
     }
   })
-
+}
 
 //METHODS CALLED BY SWITCH CASE TO BE HOISTED
 
@@ -182,7 +182,7 @@ function updateRole (){
           }
         ]).then(answer => {
           const roleChosen = res.find (role => roles.job_title === answer.role_id)
-          db.query(`UPDATE employees SET ? WHERE first_name = ` + "'" + updatedRole + "'" , {
+          db.query(`UPDATE employee SET ? WHERE first_name = ` + "'" + updatedRole + "'" , {
             role_id: "" + roleChosen.id + "" 
           }, 
           function (err) {
@@ -255,5 +255,5 @@ function addDepartment(){
 
 
 
-}
+
 
