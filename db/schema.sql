@@ -1,56 +1,44 @@
--- PRIMARY KEY: each value in the column must be unique for each record in the table
-
--- AUTO INCREMENT: increments with each successive row and assigns a new value to the id
-
--- Using the id keyword ensures that even if columns are identical, the id will be different allowing you to distinguish between records
-
--- foreign key: a field in one table that references the primary key of another table
-
-
--- DROP TABLE IF EXISITS: This will delete the tables everytime the schema.sql file is run, ensuring you start with a clean slate
 DROP TABLE IF EXISTS department;
-DROP TABLE IF EXISTS roles;
-DROP TABLE IF EXISTS employees;
+DROP TABLE IF EXISTS role;
+DROP TABLE IF EXISTS employee;
+ 
 
-
-
-
-  -- NOT NULL MEANS THAT THE COLUMN MUST CONTAIN A VALUE
--- CREATE A DEPARTMENT TABLE
+----------------------DEPARTMENT TABLE
 CREATE TABLE department (
-  id INTEGER AUTO_INCREMENT PRIMARY KEY,
-  department_name VARCHAR(30)
+  id INTEGER NOT NULL AUTO_INCREMENT,
+  department_name VARCHAR(15),
+  PRIMARY KEY (id)
 );
 
-
-
-
-
--- CREATE A ROLES TABLE
-CREATE TABLE roles (
-  id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  job_title VARCHAR(30),
-  -- role_id INTEGER, NOT NULL,
+----------------------ROLE TABLE
+CREATE TABLE role (
+  id INTEGER NOT NULL AUTO_INCREMENT,
+  job_title VARCHAR(15),
   department_id INTEGER,
   role_salary DECIMAL,
-
-  FOREIGN_KEY (department_id) REFERENCES department(id) ON DELETE SET NULL
+  PRIMARY KEY(id),
+  -- Sets the relationship between the role table and the department table
+  FOREIGN_KEY (department_id) REFERENCES department(id)  
 );
 
-
-
-
--- CREATE AN EMPLOYEE TABLE
-CREATE TABLE employees (
-  id INTEGER AUTO_INCREMENT PRIMARY KEY,
+-- Sets the relationship between the role table and the department table
+--------------------EMPLOYEE TABLE
+CREATE TABLE employee (
+  id INTEGER NOT NULL AUTO_INCREMENT,
   first_name VARCHAR(30),
   last_name VARCHAR(30),
   role_id INTEGER,
   manager_id INTEGER,
+  PRIMARY KEY(id),
 
-  FOREIGN_KEY (roles_id) REFERENCES roles(id),
-  FOREIGN_KEY (manager_id) REFERENCES employees(id) 
+-- Sets the relationship between the employee table and the role table
+  FOREIGN_KEY (role_id) 
+  REFERENCES role(id) 
+  ON DELETE CASCADE SET NULL
+-- Self references manager with employee in the employee table
+  FOREIGN_KEY (manager_id) 
+  REFERENCES employee(id) 
+  ON DELETE SET NULL
 );
-
 
 

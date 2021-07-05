@@ -1,5 +1,3 @@
-//START THE APPLICATION WITH `node index.js`
-
 // REQUIRE dotenv for password
 require('dotenv').config()
 
@@ -7,9 +5,7 @@ require('dotenv').config()
 const mysql = require('mysql2');
 const inquirer = require('inquirer');
 const fs = require ('fs');
-
 const cTable = require('console.table');
-
 
 // FUNCTION TO CONNECT TO DB
 const db = mysql.createConnection({
@@ -43,7 +39,7 @@ inquirer.prompt ([
       "View all roles", 
       "View all departments", 
       "Add an employee", 
-      "Update an employee role",
+      "Update an employee's title",
       "Add a role", 
       "Add a department", 
     ]
@@ -71,7 +67,7 @@ inquirer.prompt ([
         addEmployee();
         break;
 
-      case "Update employee role":
+      case "Update employee's role":
         updateRole();
         break;
 
@@ -90,10 +86,7 @@ inquirer.prompt ([
 
 //EMPLOYEE TABLE
 function viewAllEmployees(){
-  // console.log('does this work');
-  // db.query(`SELECT employees.first_name, employees.last_name, roles.job_title, roles.role_salary, department.department_name  `, function(err, res){
-   
-  db.query(`SELECT * FROM employees`, function (err, res){
+  db.query(`SELECT * FROM employee`, function (err, res){
     if(err) throw err
     console.table(res)
     runApp(); 
@@ -102,7 +95,7 @@ function viewAllEmployees(){
 
 //ROLES TABLE
 function viewRoles(){
-  db.query(`SELECT * FROM roles`, function(err, res){
+  db.query(`SELECT * FROM role`, function(err, res){
     if(err) throw err
     console.table(res)
     runApp(); 
@@ -111,7 +104,6 @@ function viewRoles(){
 
 //DEPARTMENTS TABLE
 function viewDepartments(){
-  //sql query, get applied to the function after
   db.query(`SELECT * FROM department`, function(err, res){
     if(err) throw err
     console.table(res)
@@ -121,7 +113,7 @@ function viewDepartments(){
 
 //ADD AN EMPLOYEE
 function addEmployee(){
-  db.query(`SELECT * FROM roles`, function(err, res){
+  db.query(`SELECT * FROM role`, function(err, res){
   if(err) throw err;
 
   inquirer.prompt([
@@ -151,8 +143,8 @@ function addEmployee(){
       
     // }
   ]).then (answer => {
-    const employeeRole = res.find(item => item.role_title === answer.role_id)
-    db.query(`INSERT INTO employees SET ? `, { 
+    const employeeRole = res.find(item => item.job_title === answer.role_id)
+    db.query(`INSERT INTO employee SET ? `, { 
       first_name: answer.first_name,
       last_name: answer.last_name,
       role_id: employeeRole.id
@@ -168,7 +160,7 @@ function addEmployee(){
 
 // UPDATE A ROLE
 function updateRole (){
-  db.query(`SELECT * FROM employees`, function(res, err){
+  db.query(`SELECT * FROM employee`, function(res, err){
     if(err) throw err;
     inquirer.prompt([
       {
@@ -179,7 +171,7 @@ function updateRole (){
       },
     ]).then(answer => {
       const updatedRole = (answer.updatedRole);
-      db.query(`SELECT * FROM roles`, function (err, res) {
+      db.query(`SELECT * FROM role`, function (err, res) {
         if(err) throw err;
         inquirer.prompt ([
           {
@@ -206,7 +198,7 @@ function updateRole (){
 
 // ADD A ROLE
 function addRole (){
-  db.query(`SELECT * FROM roles`, function(res, err){
+  db.query(`SELECT * FROM role`, function(res, err){
     // if (err) throw err;
     inquirer.prompt([
       {
