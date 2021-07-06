@@ -35,15 +35,15 @@ inquirer.prompt ([
     message: "Please select from the following options (use arrows)",
     choices: 
     [
-      "View all employees", 
-      "View all roles", 
       "View all departments", 
+      "View all roles", 
+      "View all employees", 
       "Add an employee", 
       "Update an employee's title",
       "Add a role", 
       "Add a department", 
     ]
-  },
+  }
 
 
 
@@ -51,16 +51,16 @@ inquirer.prompt ([
 ]).then (response => 
   {
     switch(response.choice){
-      case "View all employees":
-        viewAllEmployees();
+      case "View all departments":
+        viewDepartments();
         break;
 
       case "View all roles":
         viewRoles();
         break;
 
-      case "View all departments":
-        viewDepartments();
+      case "View all employees":
+        viewAllEmployees();
         break;
 
       case "Add an employee":
@@ -82,27 +82,7 @@ inquirer.prompt ([
   })
 
 
-//METHODS CALLED BY SWITCH CASE TO BE HOISTED
-
-//EMPLOYEE TABLE
-function viewAllEmployees(){
-  db.query(`SELECT * FROM employee`, function (err, res){
-    if(err) throw err
-    console.table(res)
-    runApp(); 
-  })
-}
-
-//ROLES TABLE
-function viewRoles(){
-  db.query(`SELECT * FROM role`, function(err, res){
-    if(err) throw err
-    console.table(res)
-    runApp(); 
-  })
-}
-
-//DEPARTMENTS TABLE
+// VIEW ALL DEPARTMENTS TABLE
 function viewDepartments(){
   db.query(`SELECT * FROM department`, function(err, res){
     if(err) throw err
@@ -110,6 +90,48 @@ function viewDepartments(){
     runApp(); 
   })
 }
+
+
+// VIEW ALL ROLES TABLE
+// function viewRoles(){
+//   db.query(
+//     `SELECT role.job_title, role.id, role.role_salary, 
+//      JOIN department.department_name on department.id = role.department_id`, 
+//   function(err, res){
+//     if(err) throw err
+//       console.table(res)
+//       runApp(); 
+//     })
+//   }
+function viewRoles(){
+  db.query(
+    `SELECT * FROM role`, 
+  function(err, res){
+    if(err) throw err
+      console.table(res)
+      runApp(); 
+    })
+  }
+
+
+// VIEW ALL EMPLOYEES TABLE
+function viewAllEmployees(){
+  db.query(
+    `SELECT employee.first_name, employee.last_name, role.job_title, role.role_salary, department.department_name,
+    CONCAT(e.first_name, '', e.last_name) AS Manager from employee 
+    INNER JOIN role on role.id = employee.role_id
+    INNER JOIN department on department.id = role.department_id
+    LEFT JOIN employee e on employee.manager_id = e.id`, 
+  function (err, res){
+    if(err) throw err
+    console.table(res)
+    runApp(); 
+  })
+}
+
+
+
+
 
 //ADD AN EMPLOYEE
 function addEmployee(){
@@ -129,19 +151,17 @@ function addEmployee(){
     },
     {
       name: "role_id",
-      type: "list",
+      type: "rawlist",
       messages: "What is your employee's role id?",
       choices: res.map(item => item.role_title)
     },
     // {
     //   name: "manager_id",
-    //   type: "raw-list",
+    //   type: "rawlist",
     //   message: "What is your manager's id?",
-    //   choices: res.map(item => {
-    //     item.first_name
-    //   })
-      
+    //   choices: res.map(item => item.first_name)
     // }
+
   ]).then (answer => {
     const employeeRole = res.find(item => item.job_title === answer.role_id)
     db.query(`INSERT INTO employee SET ? `, { 
