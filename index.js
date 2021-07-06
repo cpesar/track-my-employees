@@ -95,8 +95,17 @@ function viewDepartments(){
 // VIEW ALL ROLES TABLE
 // function viewRoles(){
 //   db.query(
-//     `SELECT role.job_title, role.id, role.role_salary, 
-//      JOIN department.department_name on department.id = role.department_id`, 
+//     `SELECT * FROM role `, 
+//   function(err, res){
+//     if(err) throw err
+//       console.table(res)
+//       runApp(); 
+//     })
+//   }
+// function viewRoles(){
+//   db.query(
+//     `SELECT role.id, role.job_title, role.role_salary, department.department_name FROM role
+//     INNER JOIN role ON role.id = department`, 
 //   function(err, res){
 //     if(err) throw err
 //       console.table(res)
@@ -105,7 +114,7 @@ function viewDepartments(){
 //   }
 function viewRoles(){
   db.query(
-    `SELECT * FROM role`, 
+    `SELECT role.job_title, role.id, role.role_salary FROM role `, 
   function(err, res){
     if(err) throw err
       console.table(res)
@@ -115,19 +124,19 @@ function viewRoles(){
 
 
 // VIEW ALL EMPLOYEES TABLE
-function viewAllEmployees(){
-  db.query(
-    `SELECT employee.first_name, employee.last_name, role.job_title, role.role_salary, department.department_name,
-    CONCAT(e.first_name, '', e.last_name) AS Manager from employee 
-    INNER JOIN role on role.id = employee.role_id
-    INNER JOIN department on department.id = role.department_id
-    LEFT JOIN employee e on employee.manager_id = e.id`, 
-  function (err, res){
-    if(err) throw err
-    console.table(res)
-    runApp(); 
-  })
-}
+// function viewAllEmployees(){
+//   db.query(
+//     `SELECT employee.id, employee.first_name, employee.last_name, role.job_title, role.role_salary, department.department_name,
+//     CONCAT(e.first_name, '', e.last_name) AS Manager from employee 
+//     INNER JOIN role on role.id = employee.role_id
+//     INNER JOIN department on department.id = role.department_id
+//     LEFT JOIN employee e on employee.manager_id = e.id`, 
+//   function (err, res){
+//     if(err) throw err
+//     console.table(res)
+//     runApp(); 
+//   })
+// }
 
 
 
