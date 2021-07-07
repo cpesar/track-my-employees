@@ -103,15 +103,6 @@ function viewRoles(){
       runApp(); 
     })
   }
-// function viewRoles(){
-//   db.query(
-//     `SELECT * FROM role `, 
-//   function(err, res){
-//     if(err) throw err
-//       console.table(res)
-//       runApp(); 
-//     })
-//   }
 
 // VIEW ALL EMPLOYEES TABLE
 function viewAllEmployees(){
@@ -127,31 +118,14 @@ function viewAllEmployees(){
     runApp(); 
   })
 }
-// function viewAllEmployees(){
-//   db.query(
-//     `SELECT * FROM employee, role, department
-//     WHERE role_id = employee.id
-//     `, 
-//   function (err, res){
-//     if(err) throw err
-//     console.table(res)
-//     runApp(); 
-//   })
-// }
-// function viewAllEmployees(){
-//   db.query(
-//     `SELECT * FROM employee`, 
-//   function (err, res){
-//     if(err) throw err
-//     console.table(res)
-//     runApp(); 
-//   })
-// }
 
+// CREATE ROLE ARRAY
+
+// CREATE MANAGER ARRAY
 
 //ADD AN EMPLOYEE
 function addEmployee(){
-  db.query(`SELECT * FROM role`, function(err, res){
+  db.query(`SELECT * FROM employee`, function(err, res){
   if(err) throw err;
 
   inquirer.prompt([
@@ -165,25 +139,27 @@ function addEmployee(){
      type: "input",
      message: "What is your employee's last name?" 
     },
-    // {
-    //   name: "role_id",
-    //   type: "rawlist",
-    //   messages: "What is your employee's role id?",
-    //   choices: res.map(item => item.role_title)
-    // },
-    // {
-    //   name: "manager_id",
-    //   type: "rawlist",
-    //   message: "What is your manager's id?",
-    //   choices: res.map(item => item.first_name)
-    // }
+    {
+      name: "role_id",
+      type: "list",
+      messages: "What is your employee's role id?",
+      choices: res.map(item => item.role_id)
+    },
+    {
+      name: "manager_id",
+      type: "rawlist",
+      message: "What is your manager's id?",
+      choices: res.map(item => item.manager_id)
+    }
 
   ]).then (answer => {
-    const employeeRole = res.find(item => item.job_title === answer.role_id)
+    const employeeRole = res.find(item => item.role_id === answer.role_id);
+    const managerId = res.find(item => item.manager_id === answer.manager_id);
     db.query(`INSERT INTO employee SET ? `, { 
       first_name: answer.first_name,
       last_name: answer.last_name,
-      // role_id: employeeRole.id
+      role_id: employeeRole.id,
+      manager_id: managerId.id
     }, function(err, res){
       if(err) throw err
       console.log("Successfully added new employee!");
