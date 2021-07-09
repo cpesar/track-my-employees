@@ -119,6 +119,7 @@ function viewAllEmployees(){
   })
 }
 
+// ADD AN EMPLOYEE
 function addEmployee(){
   db.query(`SELECT * FROM role`, function(err, res){
   if(err) throw err;
@@ -139,14 +140,12 @@ function addEmployee(){
       type: "list",
       messages: "What is your employee's role id?",
       choices: res.map(item => item.id)
-      // choices: getRole()
     },
     {
       name: "manager_id",
       type: "rawlist",
       message: "What is your manager's id?",
       choices: res.map(item => item.id)
-      // choices: selectManager()
     }
 
   ]).then (answer => {
@@ -168,48 +167,8 @@ function addEmployee(){
 
 
 // UPDATE A ROLE
-// function updateRole (){
-//   console.log('Why?')
-//   // db.query(`SELECT * FROM employee`, function(res, err){
-//   //   if(err) throw err;
- 
-//   //   inquirer.prompt([
-//   //     {
-//   //       name: 'updatedRole',
-//   //       type: 'list',
-//   //       message: 'What is your employee first name?',
-//   //       choices: res.map(employee => employee.first_name)
-//   //     },
-//   //   ]).then(answer => {
-//   //     const updatedRole = (answer.updatedRole);
-//   //     db.query(`SELECT * FROM role`, function (err, res) {
-//   //       if(err) throw err;
-//   //       inquirer.prompt ([
-//   //         {
-//   //           name: 'role_id',
-//   //           type: 'list',
-//   //           message: 'What is your employee new role?',
-//   //           // choices: res.map(role => role.job_title )
-//   //         }
-//   //       ]).then(answer => {
-//   //         const roleChosen = res.find (role => roles.job_title === answer.role_id)
-//   //         db.query(`UPDATE employee SET ? WHERE first_name = ` + "'" + updatedRole + "'" , {
-//   //           role_id: "" + roleChosen.id + "" 
-//   //         }, 
-//   //         function (err) {
-//   //           if(err) throw err;
-//   //           console.log('Employee role successfully updated!')
-//   //           runApp();
-//   //         })
-//   //       })
-//   //     })
-//   //   })
-//   // })
-// }
-
 function updateRole (){
-  // console.log('Why?')
-  db.query(`SELECT * FROM employee`, function(res, err){
+  db.query(`SELECT * FROM employee`, function(err, res){
     if(err) throw err;
  
     inquirer.prompt([
@@ -228,10 +187,10 @@ function updateRole (){
             name: 'role_id',
             type: 'list',
             message: 'What is your employee new role?',
-            // choices: res.map(role => role.job_title )
+            choices: res.map(role => role.job_title )
           }
         ]).then(answer => {
-          const roleChosen = res.find (role => roles.job_title === answer.role_id)
+          const roleChosen = res.find (role => role.job_title === answer.role_id)
           db.query(`UPDATE employee SET ? WHERE first_name = ` + "'" + updatedRole + "'" , {
             role_id: "" + roleChosen.id + "" 
           }, 
@@ -247,85 +206,34 @@ function updateRole (){
 }
 
 
-// ADD A ROLE
-// function addRole (){
-//     inquirer.prompt([
-//       {
-//        name: "title",
-//        type: "input",
-//        message: "What is the jobs title?"
-//       },
-//       {
-//        name: "salary",
-//        type: "number",
-//        message: "What salary does this role have?" 
-//       },
-//       {
-//         name: "departmentId",
-//         type: "list",
-//         message: "What is department id?",
-//         // choices: res.find(item => item.department_id)
-//       },
-//     // ]).then(answer => {
-//     //   // const selectedDepartment = res.map(item => item.department_id === answer.department_id)
 
-//     //   db.query(`INSERT INTO role SET ?`, {
-//     //     job_title: answer.title,
-//     //     role_salary: answer.salary,
-//     //     department_id: selectedDepartment.id
-//     //     // department_name: answer.department_name
-//     //   }, function(err, res){
-//     //     if(err) throw err
-//     //     console.log("Successfully added new role!");
-//     //     runApp(); 
-//     // })
-//     // })
-//     ]).then(function(answer) {
-//       connection.query(`INSERT INTO role SET ?`,
-//         {
-//           title: answer.title,
-//           salary: answer.salary,
-//           department_id: answer.departmentId
-//         },
-//         function(err, answer) {
-//           if(err) throw err
-//           console.table(answer);
-//         }
-//       );
-//       runApp();
-//     });
-// }
-
-
-
-// // ADD A ROLE
+ // ADD A ROLE
 const addRole = () => {
-  db.query(`SELECT * FROM role`, function(res, err){
+  db.query(`SELECT * FROM department`, function(err, res){
     if (err) throw err;
-    const selectedDepartment = res.map(item => item.department_id === answer.department_id)
     inquirer.prompt([
       {
        name: "title",
        type: "input",
-       message: "What is the jobs Title?"
+       message: "What is the job title?"
       },
       {
        name: "salary",
        type: "number",
-       message: "What Salary does this role have?" 
+       message: "What salary does this role have?" 
       },
-      // {
-      //   name: "department_name",
-      //   type: "list",
-      //   messages: "What is department name?",
-      //   choices: res.find(item => item.job_title)
-      // },
+      {
+        name: "department_name",
+        type: "list",
+        messages: "What is department name?",
+        choices: res.map(item => item.department_name)
+      },
     ]).then(answer => {
-      // const selectedDepartment = res.map(item => item.department_id === answer.department_id)
+      const selectedDepartment = res.find(item => item.department_id === answer.department_id)
 
-      db.query(`INSERT INTO roles SET ?`, {
-        job_title: answer.Title,
-        role_salary: answer.Salary,
+      db.query(`INSERT INTO role SET ?`, {
+        job_title: answer.title,
+        role_salary: answer.salary,
         department_id: selectedDepartment.id
       }, function(err, res){
         if(err) throw err
