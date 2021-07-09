@@ -8,6 +8,9 @@
   <br />
   <br />
   [Table creation using MySQL Shell](https://www.youtube.com/watch?v=jKSjJ2JGgaM)
+  <br />
+  <br />
+  [Walkthrough Video](https://www.youtube.com/watch?v=3m2GUg0EhuY)
   
   
   
@@ -23,7 +26,7 @@
   
 
   ## :wrench: Installation
-  <a name="installation">Use ``git clone`` to clone this repository to your local machine. Install all dependencies: ``npm install inquirer``, ``npm install mysql2``, ``npm install console.table``</a>
+  <a name="installation">Use ``git clone`` to clone this repository to your local machine. Install all dependencies: ``npm install inquirer``, ``npm install mysql2``, ``npm install console.table``. Optional: ``npm dotenv`` for password encryption.</a>
   <br />
   
 
